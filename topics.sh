@@ -19,8 +19,7 @@ if $failed; then
 fi
 
 if [[ -n $TOPICS ]]; then
-    IFS=','; for topicToCreate in $TOPICS; do
-        IFS=':' read -a topicConfig <<< "$topicToCreate"
-        JMX_PORT='' kafka-topics.sh --create --zookeeper localhost:$ZK_PORT --replication-factor 1 --partitions 1 --if-not-exists
+    IFS=','; for $topic in $TOPICS; do
+        JMX_PORT='' kafka-topics.sh --create --zookeeper localhost:$ZK_PORT --topic "$topic" --replication-factor 1 --partitions 1 --if-not-exists
     done
 fi
