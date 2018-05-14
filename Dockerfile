@@ -5,10 +5,10 @@ ARG kafka_port=9092
 ARG scala_ver=2.11
 ARG zk_ver=3.4.10
 ARG zk_port=2181
-ARG topics="default_topic"
 ARG ap_mirror=http://mirrors.sonic.net/apache/
 ARG ktar=$ap_mirror/kafka/$kafka_ver/kafka_$scala_ver-$kafka_ver.tgz
 ARG ztar=$ap_mirror/zookeeper/zookeeper-$zk_ver/zookeeper-$zk_ver.tar.gz
+ARG repo=https://raw.githubusercontent.com/petermelias/kafka-docker-ci/master/
 
 ENV ZK_ROOT=/zookeeper
 ENV ZK_DATA=$ZK_ROOT/data
@@ -18,7 +18,7 @@ ENV KAFKA_HEAP_OPTS="-Xms512m -Xmx1g"
 ENV PATH=$PATH:$KAFKA_MNT/bin:$ZK_ROOT/bin
 ENV ZK_PORT=$zk_port
 ENV KAFKA_PORT=$kafka_port
-ENV TOPICS=$topics
+ENV TOPICS="default.topic"
 
 RUN apk add --update unzip wget curl jq coreutils tar
 
@@ -37,9 +37,9 @@ RUN tar xfz /tmp/zk.tgz -C $ZK_ROOT --strip-components=1
 RUN rm -f /tmp/zg.tgz
 RUN printf "tickTime=2000\ndataDir=$ZK_DATA\nclientPort=2181" > $ZK_ROOT/conf/zoo.cfg
 
-RUN wget -q https://raw.githubusercontent.com/petermelias/kafka-docker-travis/master/boot.sh -O $KAFKA_MNT/bin/boot.sh
+RUN wget -q $repo/boot.sh -O $KAFKA_MNT/bin/boot.sh
 RUN chmod +x $KAFKA_MNT/bin/boot.sh
-RUN wget -q https://raw.githubusercontent.com/petermelias/kafka-docker-travis/master/topics.sh -O $KAFKA_MNT/bin/topics.sh
+RUN wget -q $repo/topics.sh -O $KAFKA_MNT/bin/topics.sh
 RUN chmod +x $KAFKA_MNT/bin/topics.sh
 
 VOLUME $KAFKA_LOG_DIRS
