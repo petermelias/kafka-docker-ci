@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo "HI"
+zkServer.sh start
