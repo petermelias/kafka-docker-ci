@@ -7,7 +7,7 @@ failed=false
 while netstat -lnt | awk '$4 ~ /:'$KAFKA_PORT'$/ {exit 1}'; do
     sleep $step;
     count=$(expr $count + $step)
-    if [ $count -gt $waits]; then
+    if [ $count -gt $waits ]; then
         failed=true
         break
     fi
