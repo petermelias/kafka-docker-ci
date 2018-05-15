@@ -3,6 +3,6 @@
 zkServer.sh start
 topics.sh &
 
-printf "listeners=PLAINTEXT://localhost:$KAFKA_PORT" >> config/server.properties
+printf "\nlisteners=PLAINTEXT://localhost:$KAFKA_PORT\n" >> config/server.properties
 
 exec kafka-server-start.sh config/server.properties
